@@ -113,7 +113,11 @@ class AgentController:
 
                     roles = chunk.keys()
                     for role in roles:
-                        messages: list[AnyMessage] = chunk[role].get("messages", [])
+                        node_output = chunk[role]
+                        if node_output is None or not isinstance(node_output, dict):
+                            continue
+
+                        messages: list[AnyMessage] = node_output.get("messages", [])
                         for message in messages:
                             if isinstance(message, AIMessage):
                                 # Update with final message (includes complete tool calls)
