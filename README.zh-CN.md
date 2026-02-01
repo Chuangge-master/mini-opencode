@@ -43,6 +43,7 @@
 - [开发指南](#-开发指南)
 - [参与贡献](#-参与贡献)
 - [致谢](#-致谢)
+- [Star History](#-star-history)
 - [开源协议](#-开源协议)
 
 ## 🚀 环境准备
@@ -173,6 +174,10 @@ mini-opencode/
 
 - **[Deer-Code](https://github.com/MagicCube/deer-code)**
 - **[OpenCode](https://github.com/anomalyco/opencode)**
+
+## 📈 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=amszuidas/mini-opencode&type=Date)](https://star-history.com/#amszuidas/mini-opencode&Date)
 
 ## 📄 开源协议
 

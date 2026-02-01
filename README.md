@@ -43,6 +43,7 @@
 - [Development](#-development)
 - [Contributing](#-contributing)
 - [Acknowledgments](#-acknowledgments)
+- [Star History](#-star-history)
 - [License](#-license)
 
 ## 🚀 Prerequisites
@@ -173,6 +174,10 @@ Special thanks to the developers of the following projects for their inspiration
 
 - **[Deer-Code](https://github.com/MagicCube/deer-code)**
 - **[OpenCode](https://github.com/anomalyco/opencode)**
+
+## 📈 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=amszuidas/mini-opencode&type=Date)](https://star-history.com/#amszuidas/mini-opencode&Date)
 
 ## 📄 License
 
