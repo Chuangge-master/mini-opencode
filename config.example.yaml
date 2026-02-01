@@ -1,29 +1,20 @@
 models:
   chat_model:
     type: deepseek
-    model: 'deepseek-chat'
-    api_base: 'https://api.deepseek.com'
+    model: deepseek-chat
     api_key: $DEEPSEEK_API_KEY
+    api_base: https://api.deepseek.com
     temperature: 0
     top_p: 1.0
     max_tokens: 8192
     timeout: 60
     max_retries: 3
     # type: kimi
-    # model: 'kimi-k2.5'
-    # api_base: 'https://api.moonshot.cn/v1'
+    # model: kimi-k2.5
     # api_key: $KIMI_API_KEY
+    # base_url: https://api.moonshot.cn/v1
     # temperature: 1
     # top_p: 0.95
-    # max_tokens: 8192
-    # timeout: 60
-    # max_retries: 3
-    # type: doubao
-    # model: 'doubao-seed-1-8-251228'
-    # api_base: 'https://ark.cn-beijing.volces.com/api/v3'
-    # api_key: $ARK_API_KEY
-    # temperature: 0
-    # top_p: 1.0
     # max_tokens: 8192
     # timeout: 60
     # max_retries: 3
@@ -56,5 +47,5 @@ tools:
       api_key: $TAVILY_API_KEY
   mcp_servers:
     docs-langchain:
-      transport: 'streamable_http'
-      url: 'https://docs.langchain.com/mcp'
+      transport: streamable_http
+      url: https://docs.langchain.com/mcp
