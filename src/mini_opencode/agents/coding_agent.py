@@ -18,8 +18,6 @@ from mini_opencode.tools import (
     web_search_tool,
 )
 
-from .state import CodingAgentState
-
 TOOL_MAP = {
     "get_today_date": get_today_date_tool,
     "web_fetch": web_fetch_tool,
@@ -83,7 +81,6 @@ def create_coding_agent(
             *plugin_tools,
         ],
         system_prompt=system_prompt,
-        state_schema=CodingAgentState,
         checkpointer=checkpointer,
         middleware=middleware,
         name="coding_agent",
