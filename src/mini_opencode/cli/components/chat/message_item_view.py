@@ -169,7 +169,7 @@ class MessageItemView(Static):
                 return f"🔍 Explore project structure: {path}{depth}"
             case "web_search":
                 return f"🔍 Web search: {args['query']}"
-            case "web_crawl":
-                return f"🔍 Web crawl: {args['url']}"
+            case "web_fetch":
+                return f"🔍 Web fetch: {args['url']}"
             case _:
                 return f"🛠️ Use MCP tool: {name}({json.dumps(args)})"

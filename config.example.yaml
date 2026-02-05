@@ -31,10 +31,10 @@ middlewares:
 
 tools:
   enabled:
-    - web_crawl
+    - web_fetch
     - web_search
   configs:
-    web_crawl:
+    web_fetch:
       api_key: $FIRECRAWL_API_KEY
     web_search:
       api_key: $TAVILY_API_KEY

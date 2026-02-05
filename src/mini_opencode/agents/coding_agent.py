@@ -14,7 +14,7 @@ from mini_opencode.prompts import apply_prompt_template
 from mini_opencode.skills import load_skills
 from mini_opencode.tools import (
     get_today_date_tool,
-    web_crawl_tool,
+    web_fetch_tool,
     web_search_tool,
 )
 
@@ -22,7 +22,7 @@ from .state import CodingAgentState
 
 TOOL_MAP = {
     "get_today_date": get_today_date_tool,
-    "web_crawl": web_crawl_tool,
+    "web_fetch": web_fetch_tool,
     "web_search": web_search_tool,
 }
 
@@ -53,7 +53,7 @@ def create_coding_agent(
     else:
         tools = [
             get_today_date_tool,
-            web_crawl_tool,
+            web_fetch_tool,
             web_search_tool,
         ]
 
