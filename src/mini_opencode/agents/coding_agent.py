@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from langchain.agents import create_agent
+from deepagents import create_deep_agent
 from langchain.tools import BaseTool
 from langgraph.checkpoint.base import RunnableConfig
 from langgraph.checkpoint.memory import MemorySaver
@@ -88,7 +88,7 @@ def create_coding_agent(
     if summarization_middleware:
         middleware.append(summarization_middleware)
 
-    return create_agent(
+    return create_deep_agent(
         model=model,
         tools=[
             *tools,
