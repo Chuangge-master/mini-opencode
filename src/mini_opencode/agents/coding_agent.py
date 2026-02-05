@@ -12,13 +12,13 @@ from mini_opencode.models import init_chat_model
 from mini_opencode.prompts import apply_prompt_template
 from mini_opencode.skills import load_skills
 from mini_opencode.tools import (
-    get_today_date_tool,
+    get_current_date_tool,
     web_fetch_tool,
     web_search_tool,
 )
 
 TOOL_MAP = {
-    "get_today_date": get_today_date_tool,
+    "get_current_date": get_current_date_tool,
     "web_fetch": web_fetch_tool,
     "web_search": web_search_tool,
 }
@@ -44,12 +44,12 @@ def create_coding_agent(
     enabled_tools_config = get_config_section(["tools", "enabled"])
     if enabled_tools_config is not None and isinstance(enabled_tools_config, list):
         tools = [TOOL_MAP[name] for name in enabled_tools_config if name in TOOL_MAP]
-        # Add get_today_date_tool if not enabled
-        if "get_today_date" not in enabled_tools_config:
-            tools.append(get_today_date_tool)
+        # Add get_current_date_tool if not enabled
+        if "get_current_date" not in enabled_tools_config:
+            tools.append(get_current_date_tool)
     else:
         tools = [
-            get_today_date_tool,
+            get_current_date_tool,
             web_fetch_tool,
             web_search_tool,
         ]
