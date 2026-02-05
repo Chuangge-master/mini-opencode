@@ -31,9 +31,6 @@ middlewares:
 
 tools:
   enabled:
-    - edit
-    - read
-    - write
     - bash
     - web_crawl
     - web_search
