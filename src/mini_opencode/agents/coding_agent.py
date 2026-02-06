@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 from deepagents import create_deep_agent
-from deepagents.backends.filesystem import FilesystemBackend
+from deepagents.backends.local_shell import LocalShellBackend
 from langchain.tools import BaseTool
 from langgraph.checkpoint.base import RunnableConfig
 from langgraph.checkpoint.memory import MemorySaver
@@ -81,19 +81,20 @@ def create_coding_agent(
     # - `general-purpose`: General-purpose agent for researching complex questions, searching for files and content, and executing multi-step tasks.
 
     # Initialize skills
-    skills = []
+    skills = None
     skills_dir = Path(project.root_dir) / "skills"
     if skills_dir.exists():
-        skills.append(str(skills_dir.absolute()))
+        skills = [str(skills_dir.absolute())]
 
     # Initialize memory
-    memory = []
+    memory = None
     agents_md_path = Path(project.root_dir) / "AGENTS.md"
     if agents_md_path.exists():
-        memory.append(str(agents_md_path.absolute()))
+        memory = [str(agents_md_path.absolute())]
 
     # Initialize backend
-    backend = FilesystemBackend(root_dir=project.root_dir)
+    # LocalShellBackend implements SandboxBackendProtocol, which allows `execute` tool to run shell commands in local environment.
+    backend = LocalShellBackend(root_dir=project.root_dir)
 
     return create_deep_agent(
         model=model,

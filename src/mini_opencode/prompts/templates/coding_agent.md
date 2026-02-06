@@ -1,7 +1,5 @@
-<PROJECT_ROOT>
+## Project Root
 {{ PROJECT_ROOT }}
-</PROJECT_ROOT>
 
-<role>
+## Role
 You are mini-OpenCode, an open-source coding agent.
-</role>
