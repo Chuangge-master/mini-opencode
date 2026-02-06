@@ -167,21 +167,25 @@ class AgentController:
             tool_name = tool_call["name"]
             tool_args = tool_call["args"]
             preview = self._format_tool_call_preview(tool_name, tool_args)
-            if tool_name in {"bash", "tree", "grep", "ls"}:
+            if tool_name in {"execute", "ls", "glob", "grep"}:
                 self._terminal_tool_calls.append(tool_call["id"])
                 terminal_view.write(preview or f"$ {tool_name}")
                 bottom_right_tabs.active = "terminal-tab"
-            elif tool_name == "todo_write":
+            elif tool_name == "write_todos":
                 bottom_right_tabs.active = "todo-tab"
                 todo_list_view.update_items(tool_args["todos"])
-            elif tool_name == "read":
-                editor_tabs.open_file(tool_args["path"])
-            elif tool_name == "write":
-                editor_tabs.open_file(tool_args["path"], tool_args.get("content"))
-                self._file_modification_tool_calls[tool_call["id"]] = tool_args["path"]
-            elif tool_name == "edit":
-                editor_tabs.open_file(tool_args["path"])
-                self._file_modification_tool_calls[tool_call["id"]] = tool_args["path"]
+            elif tool_name == "read_file":
+                editor_tabs.open_file(tool_args["file_path"])
+            elif tool_name == "write_file":
+                editor_tabs.open_file(tool_args["file_path"], tool_args.get("content"))
+                self._file_modification_tool_calls[tool_call["id"]] = tool_args[
+                    "file_path"
+                ]
+            elif tool_name == "edit_file":
+                editor_tabs.open_file(tool_args["file_path"])
+                self._file_modification_tool_calls[tool_call["id"]] = tool_args[
+                    "file_path"
+                ]
 
     def process_tool_message(self, message: ToolMessage) -> None:
         """Handle tool results."""
@@ -217,39 +221,20 @@ class AgentController:
 
     def _format_tool_call_preview(self, tool_name: str, tool_args: dict) -> str | None:
         """Format a tool call for the terminal view."""
-        if tool_name == "bash":
-            command = tool_args.get("command")
-            return f"$ {command}" if command else "$ bash"
-        if tool_name == "tree":
-            path = tool_args.get("path") or "."
-            max_depth = tool_args.get("max_depth")
-            depth_part = f" --max-depth={max_depth}" if max_depth is not None else ""
-            return f"$ tree {path}{depth_part}"
-        if tool_name == "grep":
-            pattern = tool_args.get("pattern")
-            path = tool_args.get("path")
-            glob = tool_args.get("glob")
-            output_mode = tool_args.get("output_mode")
-            parts: list[str] = ["$ grep"]
-            if pattern:
-                parts.append(str(pattern))
-            if path:
-                parts.append(str(path))
-            if glob:
-                parts.append(f"--glob={glob}")
-            if output_mode:
-                parts.append(f"--output={output_mode}")
-            return " ".join(parts)
+        if tool_name == "execute":
+            command = tool_args.get("command") or "unknown"
+            return f"$ {command}"
         if tool_name == "ls":
             path = tool_args.get("path") or "."
-            match = tool_args.get("match")
-            ignore = tool_args.get("ignore")
-            parts = ["$ ls", str(path)]
-            if match:
-                parts.append(f"--match={match}")
-            if ignore:
-                parts.append(f"--ignore={ignore}")
-            return " ".join(parts)
+            return f"$ ls {path}"
+        if tool_name == "glob":
+            pattern = tool_args.get("pattern") or "*"
+            path = tool_args.get("path") or "/"
+            return f"$ glob {pattern} {path}"
+        if tool_name == "grep":
+            pattern = tool_args.get("pattern") or "*"
+            path = tool_args.get("path") or "."
+            return f"$ grep {pattern} {path}"
         return None
 
     def _extract_code(self, text: str) -> str:
