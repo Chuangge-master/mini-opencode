@@ -66,6 +66,15 @@ def create_coding_agent(
         PROJECT_ROOT=project.root_dir,
     )
 
+    # Initialize middleware
+    # create_deep_agent default supported middleware:
+    # - `TodoListMiddleware`: todo list management
+    # - `FilesystemMiddleware`: providing file system and optional `execution` tools
+    # - `SubAgentMiddleware`: providing subagents via a `task` tool
+    # - `SummarizationMiddleware`: providing context summarization
+    # - `AnthropicPromptCachingMiddleware`: caching Anthropic prompts
+    # - `PatchToolCallsMiddleware`: patching dangling tool calls in the messages history
+
     # Initialize skills
     skills = []
     skills_dir = Path(project.root_dir) / "skills"
