@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from deepagents import create_deep_agent
+from deepagents.backends.filesystem import FilesystemBackend
 from langchain.tools import BaseTool
 from langgraph.checkpoint.base import RunnableConfig
 from langgraph.checkpoint.memory import MemorySaver
@@ -10,7 +11,6 @@ from mini_opencode import project
 from mini_opencode.config import get_config_section
 from mini_opencode.models import init_chat_model
 from mini_opencode.prompts import apply_prompt_template
-from mini_opencode.skills import load_skills
 from mini_opencode.tools import (
     get_current_date_tool,
     web_fetch_tool,
@@ -55,17 +55,22 @@ def create_coding_agent(
         ]
 
     # Initialize system prompt
-    skills_dir = Path(project.root_dir) / "skills"
-    skills = load_skills(skills_dir)
-    skills_list_str = "\n".join(
-        [f"- {skill.name}: {skill.path}\n  {skill.description}" for skill in skills]
-    )
     system_prompt = apply_prompt_template(
         "coding_agent",
         PROJECT_ROOT=project.root_dir,
-        SKILLS_PATH=str(skills_dir.absolute()),
-        SKILLS_LIST=skills_list_str,
     )
+
+    # Initialize skills
+    skills = []
+    skills_dir = Path(project.root_dir) / "skills"
+    if skills_dir.exists():
+        skills.append(str(skills_dir.absolute()))
+
+    # Initialize memory
+    memory = []
+    agents_md_path = Path(project.root_dir) / "AGENTS.md"
+    if agents_md_path.exists():
+        memory.append(str(agents_md_path.absolute()))
 
     return create_deep_agent(
         model=model,
@@ -74,6 +79,9 @@ def create_coding_agent(
             *plugin_tools,
         ],
         system_prompt=system_prompt,
+        skills=skills,
+        memory=memory,
+        backend=FilesystemBackend(root_dir=project.root_dir),
         checkpointer=checkpointer,
         name="coding_agent",
         **kwargs,
