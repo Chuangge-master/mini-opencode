@@ -12,10 +12,10 @@ from mini_opencode.config import get_config_section
 from mini_opencode.models import init_chat_model
 from mini_opencode.prompts import apply_prompt_template
 from mini_opencode.tools import (
+    bocha_websearch_tool,
     get_current_date_tool,
     web_fetch_tool,
     web_search_tool,
-    bocha_websearch_tool,
 )
 
 TOOL_MAP = {

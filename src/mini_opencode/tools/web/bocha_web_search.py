@@ -1,7 +1,8 @@
-import os
 import requests
 from langchain.tools import tool
+
 from mini_opencode.config import get_config_section
+
 
 @tool("bocha_web_search")
 def bocha_websearch_tool(query: str, count: int = 10) -> str:
@@ -18,7 +19,7 @@ def bocha_websearch_tool(query: str, count: int = 10) -> str:
         Detailed search results including webpage title, URL, summary, site name, site icon, and last crawled date.
     """
 
-    url = 'https://api.bochaai.com/v1/web-search'
+    url = "https://api.bochaai.com/v1/web-search"
     settings = get_config_section(["tools", "configs", "bocha_web_search"])
     api_key = settings.get("api_key")
     if not api_key:
@@ -26,14 +27,14 @@ def bocha_websearch_tool(query: str, count: int = 10) -> str:
             "The `bocha_api_key` is not specified in the `tools/configs/bocha_web_search` section."
         )
     headers = {
-        'Authorization': f'Bearer {api_key}',  # Replace with your actual API key
-        'Content-Type': 'application/json'
+        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
+        "Content-Type": "application/json",
     }
     data = {
         "query": query,
         "freshness": "noLimit",  # Time range filter for results
         "summary": True,  # Whether to return long text summaries
-        "count": count
+        "count": count,
     }
 
     response = requests.post(url, headers=headers, json=data)
@@ -64,6 +65,7 @@ def bocha_websearch_tool(query: str, count: int = 10) -> str:
             return f"Search API request failed, reason: result parsing error - {str(e)}"
     else:
         return f"Search API request failed, status code: {response.status_code}, error: {response.text}"
+
 
 if __name__ == "__main__":
     print(bocha_websearch_tool.invoke({"query": "今天北京的天气怎么样？", "count": 5}))
